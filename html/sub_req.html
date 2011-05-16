@@ -1,0 +1,17 @@
+<html>
+<body>
+<!--
+  This should basically be whatever you have in the cache already from your
+  calling page which has an ajax wrapper. In my case its jQuery
+-->
+<script src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+<script>
+  // Remove the subdomain from subdomain.valobox.com becomes valobox.com and
+  // then up the domain to this, allowing us to do ajax requests to valobox.com.
+  document.domain = window.location.hostname.split(".").splice(1).join(".");
+
+  // The ajax method you want to expose.
+  window.request = $.ajax;
+</script>
+</body>
+</html>

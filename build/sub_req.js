@@ -3,7 +3,6 @@
   create = function(url, opts) {
     var elem;
     document.domain = window.location.hostname.split(".").splice(1).join(".");
-    window.request = $.ajax;
     elem = $('<iframe></iframe>');
     elem.attr('src', url);
     elem.attr('id', "__sub_domain_comms");
@@ -29,7 +28,7 @@
 
     }
     return setTimeout(function() {
-      return ready(opts.success, error, attempts++);
+      return ready(opts, attempts++);
     }, 200);
   };
   window.SubReq = {

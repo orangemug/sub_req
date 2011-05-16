@@ -6,7 +6,6 @@ create = (url, opts) ->
   # Remove the subdomain from subdomain.example.com becomes example.com and
   # then up the domain to this, allowing us to do ajax requests to example.com.
   document.domain = window.location.hostname.split(".").splice(1).join(".")
-  window.request = $.ajax
 
   # Create the iframe
   elem = $('<iframe></iframe>')
@@ -34,7 +33,7 @@ ready = (opts, attempts=0) ->
 
   # Try again in a bit.
   setTimeout () ->
-    ready(opts.success, error, attempts++)
+    ready(opts, attempts++)
   ,200
 
 

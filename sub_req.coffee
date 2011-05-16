@@ -11,7 +11,7 @@ create = (url, opts) ->
   elem = $('<iframe></iframe>')
   elem.attr('src', url)
   elem.attr('id',  "__sub_domain_comms")
-  elem.css('display', "none")
+  #elem.css('display', "none")
   $('body').append(elem)
 
   # Check if we're ready
@@ -19,14 +19,15 @@ create = (url, opts) ->
 
 # Just checks if the link is ready
 ready = (opts, attempts=0) ->
+  console.log "CHECK - on #{document.domain}"
   if attempts > 99
     opts.error('timeout')
 
   try
-    subWin = document.getElementById('__sub_domain_comms').contentWindow
-    if subWin && subWin.document.domain == document.domain && subWin.contentWindow.request
+    subElem = document.getElementById('__sub_domain_comms')
+    if subElem.contentWindow && subElem.contentWindow.document.domain == document.domain && subElem.contentWindow.request
       # Return the request handler
-      success subWin.request
+      opts.success subElem.contentWindow.request
       return
   catch e
     # Do nothing here it'll error it the window hasn't loaded yet

@@ -6,22 +6,22 @@
     elem = $('<iframe></iframe>');
     elem.attr('src', url);
     elem.attr('id', "__sub_domain_comms");
-    elem.css('display', "none");
     $('body').append(elem);
     return ready(opts);
   };
   ready = function(opts, attempts) {
-    var subWin;
+    var subElem;
     if (attempts == null) {
       attempts = 0;
     }
+    console.log("CHECK - on " + document.domain);
     if (attempts > 99) {
       opts.error('timeout');
     }
     try {
-      subWin = document.getElementById('__sub_domain_comms').contentWindow;
-      if (subWin && subWin.document.domain === document.domain && subWin.contentWindow.request) {
-        success(subWin.request);
+      subElem = document.getElementById('__sub_domain_comms');
+      if (subElem.contentWindow && subElem.contentWindow.document.domain === document.domain && subElem.contentWindow.request) {
+        opts.success(subElem.contentWindow.request);
         return;
       }
     } catch (e) {

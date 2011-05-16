@@ -26,8 +26,8 @@ Below is an example usage. Say you have 2 domains you wish to communcate across
     -->
     <script src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
     <script>
-      // Remove the subdomain from subdomain.valobox.com becomes valobox.com and
-      // then up the domain to this, allowing us to do ajax requests to valobox.com.
+      // Remove the subdomain from subdomain.example.com becomes example.com and
+      // then up the domain to this, allowing us to do ajax requests to example.com.
       document.domain = window.location.hostname.split(".").splice(1).join(".");
 
       // The ajax method you want to expose.

@@ -19,7 +19,6 @@ create = (url, opts) ->
 
 # Just checks if the link is ready
 ready = (opts, attempts=0) ->
-  console.log "CHECK - on #{document.domain}"
   if attempts > 99
     opts.error('timeout')
 

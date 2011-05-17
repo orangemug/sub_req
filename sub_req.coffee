@@ -11,7 +11,7 @@ create = (url, opts) ->
   elem = $('<iframe></iframe>')
   elem.attr('src', url)
   elem.attr('id',  "__sub_domain_comms")
-  #elem.css('display', "none")
+  elem.css('display', "none")
   $('body').append(elem)
 
   # Check if we're ready

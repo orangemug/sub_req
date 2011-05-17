@@ -6,6 +6,7 @@
     elem = $('<iframe></iframe>');
     elem.attr('src', url);
     elem.attr('id', "__sub_domain_comms");
+    elem.css('display', "none");
     $('body').append(elem);
     return ready(opts);
   };
@@ -14,7 +15,6 @@
     if (attempts == null) {
       attempts = 0;
     }
-    console.log("CHECK - on " + document.domain);
     if (attempts > 99) {
       opts.error('timeout');
     }

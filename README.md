@@ -48,6 +48,10 @@ On `sub1.domain.com` require the `sub_req.min.js` and initialize the communicati
       }
     })
 
+If you wish your cookies to work across subdomains you'll need to set them on the top level domain. For example if you were using Rails the server on `sub1.domain.com` would set
+
+    Rails.application.config.session_store :active_record_store, {:domain => '.domain.com'}
+
 
 ## Build/Test
 To build/minify simply run the following from the base directory, you'll need coffeescript installed to use `cake`

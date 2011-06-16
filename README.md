@@ -2,10 +2,13 @@
 
 Simple wrapper to make requests across subdomains.
 
-Get it:
+## Get it
 
- * [sub_req.js](https://github.com/orangemug/sub_req/raw/master/build/sub_req.js)
- * [sub_req.min.js](https://github.com/orangemug/sub_req/raw/master/build/sub_req.min.js)
+For the host:
+ * [sub_req.min.js](https://github.com/orangemug/sub_req/raw/master/build/sub_req.js)
+
+For the gateway domain:
+ * [sub_req_gateway.min.js](https://github.com/orangemug/sub_req/raw/master/build/sub_req_gateway.min.js)
  * [sample host page](https://github.com/orangemug/sub_req/raw/master/html/sub_req.html) - See the comments in the file.
 
 
@@ -25,13 +28,10 @@ Below is an example usage. Say you have 2 domains you wish to communcate across
       calling page which has an ajax wrapper. In my case its jQuery
     -->
     <script src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+    <script src="sub_req_gateway.js"></script>
     <script>
-      // Remove the subdomain from subdomain.example.com becomes example.com and
-      // then up the domain to this, allowing us to do ajax requests to example.com.
-      document.domain = window.location.hostname.split(".").splice(1).join(".");
-
-      // The ajax method you want to expose.
-      window.request = $.ajax;
+      // Tell the gateway what AJAX function you're exposing
+      SubReqGateway($.ajax);
     </script>
     </body>
     </html>

@@ -5,13 +5,9 @@ util   = require 'util'
 # Required for jasmine testing
 express = require 'express'
 
-srcCoffeeDir     = '.'
+srcCoffeeDir     = 'js'
 targetJsDir      = 'build'
-targetCoffeeDir  = 'build'
-targetFileName   = 'sub_req'
-targetCoffeeFile = "#{targetCoffeeDir}/#{targetFileName}.coffee"
-targetJsFile     = "#{targetJsDir}/#{targetFileName}.js"
-coffeeOpts       = " --output #{targetJsDir} --compile #{targetCoffeeFile}"
+coffeeOpts       = " --output #{targetJsDir} --compile #{srcCoffeeDir}"
 
 specFolder       = "spec"
 specExtensions   = "coffee"
@@ -22,6 +18,7 @@ showColors = true
 # Files to build 
 coffeeFiles = [
     'sub_req'
+    'sub_req_gateway'
 ]
 
 
@@ -38,44 +35,21 @@ runSpecs = ->
 
 
 build = (callback) ->
-  # Run the specs before we build
-  util.log "Building #{targetJsFile}"
-  appContents = new Array remaining = coffeeFiles.length
-  util.log "Appending #{coffeeFiles.length} files to #{targetCoffeeFile}"
-
-  for file, index in coffeeFiles then do (file, index) ->
-      fs.readFile "#{srcCoffeeDir}/#{file}.coffee"
-                , 'utf8'
-                , (err, fileContents) ->
-          util.log err if err
-
-          appContents[index] = fileContents
-          util.log "[#{index + 1}] #{file}.coffee"
-          process() if --remaining is 0
-
-  process = ->
-      fs.writeFile targetCoffeeFile
-                 , appContents.join('\n\n')
-                 , 'utf8'
-                 , (err) ->
-          util.log err if err
-
-          exec "coffee #{coffeeOpts}", (err, stdout, stderr) ->
-              util.log err if err
-              message = "Compiled #{targetJsFile}"
-              util.log message
-              fs.unlink targetCoffeeFile, (err) -> util.log err if err
-              minify()
+  exec "coffee #{coffeeOpts}", (err, stdout, stderr) ->
+    util.log err if err
+    util.log "Compiled coffeescript"
+    minify()
 
 
 minify = (callback) ->
-  command = "java -jar 'build/tools/google-compiler/compiler.jar'  --compilation_level ADVANCED_OPTIMIZATIONS --js_output_file #{targetJsDir}/#{targetFileName}.min.js --js #{targetJsDir}/#{targetFileName}.js"
-  util.log "Running command: #{command}"
-  exec command, (err, stdout, stderr) ->
-    throw err if err
-    console.log stdout + stderr
-    callback?()
-
+  remaining = coffeeFiles.length
+  for file, index in coffeeFiles then do (file, index) ->
+    command = "java -jar 'build/tools/google-compiler/compiler.jar'  --compilation_level ADVANCED_OPTIMIZATIONS --js_output_file #{targetJsDir}/#{file}.min.js --js #{targetJsDir}/#{file}.js"
+    util.log "Running command: #{command}"
+    exec command, (err, stdout, stderr) ->
+      throw err if err
+      console.log stdout + stderr
+      callback?() if --remaining is 0
 
 #
 # TASKS

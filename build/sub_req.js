@@ -2,17 +2,17 @@
   var SubReq;
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __slice = Array.prototype.slice;
   SubReq = (function() {
-    var TIMEOUT, uniqName;
+    var TIMEOUT, uniqId;
     TIMEOUT = 1000 * 15;
-    uniqName = function() {
+    uniqId = function() {
       var rand;
       rand = Math.floor(Math.random() * 1000001);
       return "_subReq" + rand;
     };
     function SubReq(url, opts) {
-      var iframe, timer;
+      var iframe, timer, uniqName;
       document.domain = window.location.hostname.split(".").splice(1).join(".");
-      uniqName = uniqName();
+      uniqName = uniqId();
       iframe = document.createElement("IFRAME");
       iframe.setAttribute("src", "" + url + "?callback=" + uniqName);
       iframe.style.width = "0px";
@@ -21,7 +21,8 @@
       timer = setTimeout(function() {
         console.error("SubReq Timeout for " + url);
         window[uniqName] = null;
-        return document.body.removeChild(iframe);
+        document.body.removeChild(iframe);
+        return opts.error('timeout');
       }, TIMEOUT);
       window[uniqName] = __bind(function(ajaxHandle) {
         clearTimeout(timer);
@@ -37,7 +38,7 @@
     return (function(func, args, ctor) {
       ctor.prototype = func.prototype;
       var child = new ctor, result = func.apply(child, args);
-      return typeof result == "object" ? result : child;
+      return typeof result === "object" ? result : child;
     })(SubReq, args, function() {});
   };
 }).call(this);

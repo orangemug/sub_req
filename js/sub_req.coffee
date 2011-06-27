@@ -1,7 +1,7 @@
 class SubReq
   TIMEOUT = 1000*15
   # PRIVATE
-  uniqName = ->
+  uniqId = ->
     rand = Math.floor(Math.random()*1000001)
     return "_subReq#{rand}"
 
@@ -16,7 +16,7 @@ class SubReq
     document.domain = window.location.hostname.split(".").splice(1).join(".")
 
     # Set the callback
-    uniqName = uniqName()
+    uniqName = uniqId()
 
     # Create the iframe element
     iframe = document.createElement("IFRAME")
